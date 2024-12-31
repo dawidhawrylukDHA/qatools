@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0052cc;
+            --primary-hover: #0043a4;
+            --background-color: #f4f5f7;
+            --card-background: #ffffff;
+            --text-color: #172b4d;
+            --border-color: #dfe1e6;
+            --success-color: #36b37e;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .task-list {
+            margin: 30px 0;
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .task-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .task-list-header h3 {
+            font-size: 16px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .task-list-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .task-list-buttons button {
+            padding: 8px 16px;
+            font-size: 14px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .task-list-buttons button:hover {
+            background-color: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 8px;
+            background: var(--card-background);
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .task-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .task-item input[type="checkbox"] {
+            margin-right: 12px;
+            margin-top: 4px;
+        }
+
+        .task-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .task-type {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+
+        .task-type.wykon {
+            background-color: #e3fcef;
+            color: #006644;
+        }
+
+        .task-type.task {
+            background-color: #deebff;
+            color: #0747a6;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background-color: var(--success-color);
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+        }
+
+        .error-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background-color: #de350b;
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+        }
+
+        .warning-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background-color: #ff991f;
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+
+        /* New tab styles */
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+            cursor: pointer;
+            border: none;
+            background: none;
+            position: relative;
+            transition: all 0.2s ease-in-out;
+            margin-right: 8px;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .tab:hover {
+            background-color: var(--background-color);
+            color: var(--primary-color);
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            background-color: var(--background-color);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.2s ease-in-out;
+        }
+
+        .tab:not(.active)::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .tab:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .phone-input-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .phone-prefix {
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .phone-input-group input[type="number"] {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QA Tools</h1>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('task-generator')">Task Generator</button>
+            <button class="tab" onclick="switchTab('map-generator')">Map Generator</button>
+        </div>
+
+        <div id="task-generator" class="tab-content active">
+            <form method="POST" action="/" class="mt-4">
+                <div class="form-group">
+                    <label for="app_version">Wersja aplikacji</label>
+                    <input type="text" id="app_version" name="app_version" required 
+                           placeholder="np. BR_Android_7.29.9">
+                </div>
+                
+                <div class="form-group">
+                    <label for="epic_id">Parent</label>
+                    <input type="text" id="epic_id" name="epic_id" required
+                           placeholder="np. GJD-22705">
+                </div>
+                
+                <div class="form-group">
+                    <label for="iteration_number">Numer iteracji</label>
+                    <input type="number" id="iteration_number" name="iteration_number" required
+                           placeholder="np. 2">
+                </div>
+                
+                <div class="form-group">
+                    <label for="sprint">Sprint</label>
+                    <input type="number" id="sprint" name="sprint" required
+                           placeholder="np. 239">
+                </div>
+
+                <div class="task-list">
+                    <div class="task-list-header">
+                        <h3>Wybierz zadania do wygenerowania</h3>
+                        <div class="task-list-buttons">
+                            <button type="button" onclick="selectAllTasks()" style="width: auto; margin-right: 10px;">Zaznacz wszystkie</button>
+                            <button type="button" onclick="deselectAllTasks()" style="width: auto;">Odznacz wszystkie</button>
+                        </div>
+                    </div>
+                    <div class="list-group">
+                        {% for task in tasks %}
+                        <div class="task-item">
+                            <input type="checkbox" id="task_{{ loop.index0 }}" name="tasks" value="{{ loop.index0 }}">
+                            <label for="task_{{ loop.index0 }}">
+                                <span class="task-type {{ 'wykon' if task.issuetype == '10012' else 'task' }}">
+                                    {{ "Test Execution" if task.issuetype == "10012" else "Task" }}
+                                </span>
+                                {% if loop.index0 == 0 %}
+                                    <span id="dynamic-title">Wykonanie testów regresji aplikacji</span>
+                                {% else %}
+                                    <span class="task-title" data-base-title="{{ task.summary }}">
+                                        {{ task.summary.replace(' iteracja {iteration}', '').replace('iteracja {iteration}', '') }}
+                                    </span>
+                                {% endif %}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="submit">Generuj zadania</button>
+            </form>
+        </div>
+
+        <div id="map-generator" class="tab-content">
+            <form id="mapForm" action="/map" method="get">
+                <div class="form-group">
+                    <label><input type="radio" name="formType" value="type1" checked> Bliski</label>
+                    <label><input type="radio" name="formType" value="type2"> Tracker</label>
+                </div>
+
+                <div id="type1Fields">
+                    <div class="form-group">
+                        <label for="parentNumber">Numer telefonu rodzica:</label>
+                        <div class="phone-input-group">
+                            <select name="parentPrefix" class="phone-prefix">
+                                <option value="+48">+48 (Poland)</option>
+                                <option value="+420">+420 (Czech Republic)</option>
+                                <option value="+421">+421 (Slovakia)</option>
+                                <option value="+36">+36 (Hungary)</option>
+                            </select>
+                            <input type="number" id="parentNumber" name="parentNumber" data-required="true">
+                        </div>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="childNumber">Numer telefonu dziecka:</label>
+                        <div class="phone-input-group">
+                            <select name="childPrefix" class="phone-prefix">
+                                <option value="+48">+48 (Poland)</option>
+                                <option value="+420">+420 (Czech Republic)</option>
+                                <option value="+421">+421 (Slovakia)</option>
+                                <option value="+36">+36 (Hungary)</option>
+                            </select>
+                            <input type="number" id="childNumber" name="childNumber" data-required="true">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="startDate">Data i godzina od</label>
+                        <input type="datetime-local" id="startDate" name="startDate">
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="endDate">Data i godzina do</label>
+                        <input type="datetime-local" id="endDate" name="endDate">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" id="createAreasCheckbox1" name="createAreasCheckbox">
+                        <label for="createAreasCheckbox1">Nałóż strefy</label>
+                    </div>
+                </div>
+
+                <div id="type2Fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="imeiNumber">Numer IMEI:</label>
+                        <input type="number" id="imeiNumber" name="imeiNumber" data-required="true">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="startDate2">Data i godzina od</label>
+                        <input type="datetime-local" id="startDate2" name="startDate2">
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="endDate2">Data i godzina do</label>
+                        <input type="datetime-local" id="endDate2" name="endDate2">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" id="createAreasCheckbox2" name="createAreasCheckbox">
+                        <label for="createAreasCheckbox2">Nałóż strefy</label>
+                    </div>
+                </div>
+
+                <button type="submit">Generuj mapę</button>
+            </form>
+        </div>
+    </div>
+    <div id="successMessage" class="success-message">
+        Zadania zostały utworzone pomyślnie!
+    </div>
+    <div id="errorMessage" class="error-message">
+        Nie udało się utworzyć zadań. Sprawdź połączenie z siecią wewnętrzną.
+    </div>
+    <div id="partialMessage" class="warning-message">
+        Część zadań została utworzona (Sukces: <span id="successCount"></span>, Błąd: <span id="failedCount"></span>)
+    </div>
+
+    <script>
+        // Show appropriate message based on URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('success') === 'true') {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        } else if (urlParams.get('error') === 'true') {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        } else if (urlParams.get('partial') === 'true') {
+            const partialMessage = document.getElementById('partialMessage');
+            document.getElementById('successCount').textContent = urlParams.get('success');
+            document.getElementById('failedCount').textContent = urlParams.get('failed');
+            partialMessage.style.display = 'block';
+            setTimeout(() => {
+                partialMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Handle app version input
+        const appVersionInput = document.getElementById('app_version');
+        const iterationInput = document.getElementById('iteration_number');
+        const dynamicTitle = document.getElementById('dynamic-title');
+        const taskTitles = document.querySelectorAll('.task-title');
+
+        // Update iteration numbers in task titles
+        iterationInput.addEventListener('input', function(e) {
+            const value = e.target.value.trim();
+            taskTitles.forEach(title => {
+                const baseTitle = title.dataset.baseTitle;
+                if (baseTitle && baseTitle.includes('{iteration}')) {
+                    const baseTitleWithoutIteration = baseTitle.replace('iteracja {iteration}', '').trim();
+                    if (value) {
+                        title.textContent = `${baseTitleWithoutIteration} iteracja ${value}`;
+                    } else {
+                        title.textContent = baseTitleWithoutIteration;
+                    }
+                }
+            });
+        });
+
+        // Update app version in first task
+        appVersionInput.addEventListener('input', function(e) {
+            const value = e.target.value.trim();
+            if (!value) {
+                dynamicTitle.textContent = 'Wykonanie testów regresji aplikacji';
+                return;
+            }
+
+            const parts = value.split('_');
+            if (parts.length === 3) {
+                let version = parts[2];
+                let buildNumber = '';
+                if (version.includes('(')) {
+                    const matches = version.match(/(.*?)\((.*?)\)/);
+                    if (matches) {
+                        version = matches[1];
+                        buildNumber = `(${matches[2]})`;
+                    }
+                }
+                dynamicTitle.textContent = `Wykonanie testów regresji aplikacji ${parts[0]} ${parts[1]} w wersji ${version}${buildNumber}`;
+            }
+        });
+
+        // Tab switching functionality
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Deactivate all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+            
+            // Activate selected tab
+            const selectedTab = document.querySelector(`[onclick="switchTab('${tabId}')"]`);
+            selectedTab.classList.add('active');
+        }
+
+        // Map Generator Form Handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapForm = document.getElementById('mapForm');
+            
+            mapForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(mapForm);
+                const queryParams = new URLSearchParams();
+
+                // Get form type
+                const isType1 = document.querySelector('input[name="formType"]:checked').value === 'type1';
+
+                // Add relevant parameters based on form type
+                if (isType1) {
+                    if (formData.get('parentNumber')) {
+                        const parentPrefix = formData.get('parentPrefix');
+                        const parentNumber = formData.get('parentNumber');
+                        queryParams.append('parentNumber', `${parentPrefix}${parentNumber}`);
+                    }
+                    if (formData.get('childNumber')) {
+                        const childPrefix = formData.get('childPrefix');
+                        const childNumber = formData.get('childNumber');
+                        queryParams.append('childNumber', `${childPrefix}${childNumber}`);
+                    }
+                    if (formData.get('startDate')) queryParams.append('startDate', formData.get('startDate'));
+                    if (formData.get('endDate')) queryParams.append('endDate', formData.get('endDate'));
+                } else {
+                    if (formData.get('imeiNumber')) queryParams.append('imeiNumber', formData.get('imeiNumber'));
+                    if (formData.get('startDate2')) queryParams.append('startDate2', formData.get('startDate2'));
+                    if (formData.get('endDate2')) queryParams.append('endDate2', formData.get('endDate2'));
+                }
+
+                // Add createAreasCheckbox if checked
+                if (formData.get('createAreasCheckbox')) {
+                    queryParams.append('createAreasCheckbox', 'true');
+                }
+
+                // Redirect to map with query parameters using the current server's hostname
+                window.location.href = `/map?${queryParams.toString()}`;
+            });
+
+            document.querySelectorAll('input[name="formType"]').forEach((radio) => {
+                radio.addEventListener('change', toggleFormFields);
+            });
+    
+            function toggleFormFields() {
+                const type1Fields = document.getElementById('type1Fields');
+                const type2Fields = document.getElementById('type2Fields');
+                const isChecked = document.querySelector('input[name="formType"]:checked').value === 'type1';
+                
+                // Update required attributes based on visible form
+                type1Fields.querySelectorAll('input[data-required="true"]').forEach(input => {
+                    input.required = isChecked;
+                });
+                type2Fields.querySelectorAll('input[data-required="true"]').forEach(input => {
+                    input.required = !isChecked;
+                });
+
+                if (isChecked) {
+                    type1Fields.style.display = 'block';
+                    type2Fields.style.display = 'none';
+                    clearFormData(type2Fields);
+                } else {
+                    type1Fields.style.display = 'none';
+                    type2Fields.style.display = 'block';
+                    clearFormData(type1Fields);
+                }
+            }
+    
+            function clearFormData(formElement) {
+                const inputs = formElement.querySelectorAll('input[type="number"], input[type="datetime-local"], input[type="checkbox"]');
+                inputs.forEach(input => {
+                    if(input.type === "checkbox") {
+                        input.checked = false;
+                    } else {
+                        input.value = '';
+                    }
+                });
+            }
+    
+            // Initial form setup
+            toggleFormFields();
+        });
+
+        function selectAllTasks() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][name="tasks"]');
+            checkboxes.forEach(checkbox => checkbox.checked = true);
+        }
+
+        function deselectAllTasks() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][name="tasks"]');
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+        }
+    </script>
+</body>
+</html> 
